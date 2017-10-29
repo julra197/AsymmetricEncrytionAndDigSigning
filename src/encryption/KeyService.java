@@ -9,10 +9,16 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *
- * @author Ralf Ebert PI:4962733
+ * @author Ralf Ebert
  */
 public class KeyService
 {
+    /**
+     * This method generates a KeyPair for a particular cipher
+     * 
+     * @param nameOfCipher specifies the cipher e.g. "RSA"
+     * @return 
+     */
     static KeyPair getRandomKeyPair(String nameOfCipher)
     {
         KeyPair keyPair = null;

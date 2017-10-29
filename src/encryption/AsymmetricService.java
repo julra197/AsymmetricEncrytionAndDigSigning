@@ -21,7 +21,7 @@ public class AsymmetricService
     /**
      * Returns an encrypted message using a specified cipher and a key
      *
-     * @param nameOfCipher name of Cipher e.g. "RSA" or "DES"
+     * @param nameOfCipher name of Cipher e.g. "RSA"
      * @param message the plaintext message
      * @param key either a PrivateKey or a PublicKey
      * @return byte[] of the encrypted message
@@ -56,6 +56,14 @@ public class AsymmetricService
         return encryptedMessage;
     }
 
+    /**
+     * Returns a decrypted message using a specified cipher and a key
+     * 
+     * @param nameOfCipher  name of Cipher e.g. "RSA"
+     * @param encryptedMessage an encryptedMessage
+     * @param key either a PrivateKey or a PublicKey
+     * @return the decrypted message
+     */
     static String decrypt(String nameOfCipher, byte[] encryptedMessage, Key key)
     {
         //when show info is enabled and the cipher is RSA, pirnt whether a Private or Public key is used for decription
