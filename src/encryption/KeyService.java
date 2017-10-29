@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class provides methods to generate key pairs
  */
 package encryption;
 
@@ -22,13 +20,12 @@ public class KeyService
         {
             //Create a KeyPairGenerator
             KeyPairGenerator kpg = KeyPairGenerator.getInstance(nameOfCipher);
-            //generate a random key pair using the initialised size and default properties of kpg
+            //generate a random key pair using default properties of kpg
             keyPair = kpg.generateKeyPair();
             if(Main.SHOWINFO)
             {
-                System.out.println("The provider for the specified Cipher is " + kpg.getProvider());
+                System.out.println(String.format("The key provider for the specified Cipher %s is %s ", nameOfCipher, kpg.getProvider()));
             }
-            
         }
         catch (NoSuchAlgorithmException ex)        
         {

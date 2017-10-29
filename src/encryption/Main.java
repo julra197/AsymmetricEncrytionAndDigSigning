@@ -17,9 +17,9 @@ public class Main
     public static boolean SHOWINFO = true;
     public static String NAMEOFCIPHER = "RSA";
     
-    //private instance variables
+    //private variables
     
-    private static String message = "This is the contnent of the test message.\n"
+    private static String MESSAGE = "This is the contnent of the test message.\n"
             + "Very important information";
     
     /**
@@ -27,14 +27,28 @@ public class Main
      */
     public static void main(String[] args)
     {
-        //variables for communication
-        
-        
+        //variables for exemplification
+        String sender = "Bob";
+        String eavesdropper = "Eve";
+        String receiver = "Alice";
+        System.out.println(String.format("Sender: %s, Receiver: %s, Eavesdropper: %s\n", sender, receiver, eavesdropper));
+        System.out.println(String.format("INITIAL MESSAGE from %s using %s's public key:\n%s\n", sender, receiver, MESSAGE));
         KeyPair keyPair = KeyService.getRandomKeyPair(NAMEOFCIPHER);
-        byte[] encryptedMessage = AsymmetricService.encrypt(NAMEOFCIPHER,
-                message, keyPair.getPrivate());
         
-        // code to simmulate asymmetric communication as well as digital signing
+        if(SHOWINFO)
+        {
+            System.out.println(String.format("%s's public key is:\n%s", receiver, keyPair.getPublic()));
+        }
+        
+        //The encrypt method uses a Key argument, so a Private key could be provided for encryption as well
+        byte[] encryptedMessage = AsymmetricService.encrypt(NAMEOFCIPHER,
+                MESSAGE, keyPair.getPublic());
+        System.out.println("\nENCRYPTED MESSAGE to be sent and evaesdropped by " + eavesdropper + ": \n" + new String(encryptedMessage) + "\n");
+        String decryptedMessage = AsymmetricService.decrypt(NAMEOFCIPHER,
+                encryptedMessage, keyPair.getPrivate());
+        System.out.println("\nDECRYPTED MESSAGE read by "+ receiver +" using "+receiver+"'s public key: \n" + decryptedMessage);
+        
+        // code to simmulate digital signing
     }
 
 }

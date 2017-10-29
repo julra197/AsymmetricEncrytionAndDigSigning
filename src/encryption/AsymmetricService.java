@@ -28,18 +28,18 @@ public class AsymmetricService
      */
     static byte[] encrypt(String nameOfCipher, String message, Key key)
     {
-        //when show info is enabled and the cipher is RSA, pirnt whether a Private or Public key is provided
+        //when show info is enabled and the cipher is RSA, pirnt whether a Private or Public key is used for encryption
         if (Main.SHOWINFO && "RSA".equals(Main.NAMEOFCIPHER))
         {
             if (key.getClass().toString().equals(
                     "class sun.security.rsa.RSAPrivateCrtKeyImpl"))
             {
-                System.out.println("Privatekey is used for encription");
+                System.out.println("Private key is used for encription");
             }
             else if (key.getClass().toString().equals(
                     "class sun.security.rsa.RSAPublicKeyImpl"))
             {
-                System.out.println("PublicKey is used for encription");
+                System.out.println("Public key is used for encription");
             }
         }
         byte[] encryptedMessage = null;
@@ -54,5 +54,36 @@ public class AsymmetricService
             ex.printStackTrace();
         }
         return encryptedMessage;
+    }
+
+    static String decrypt(String nameOfCipher, byte[] encryptedMessage, Key key)
+    {
+        //when show info is enabled and the cipher is RSA, pirnt whether a Private or Public key is used for decription
+        if (Main.SHOWINFO && "RSA".equals(Main.NAMEOFCIPHER))
+        {
+            if (key.getClass().toString().equals(
+                    "class sun.security.rsa.RSAPrivateCrtKeyImpl"))
+            {
+                System.out.println("Private key is used for encription");
+            }
+            else if (key.getClass().toString().equals(
+                    "class sun.security.rsa.RSAPublicKeyImpl"))
+            {
+                System.out.println("Public key is used for encription");
+            }
+        }
+        String decryptedMessage = null;
+        try
+        {
+            Cipher decryptionCipher = Cipher.getInstance(nameOfCipher);
+            decryptionCipher.init(Cipher.DECRYPT_MODE, key);
+            decryptedMessage = new String(decryptionCipher.doFinal(
+                    encryptedMessage));
+        }
+        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException ex)
+        {
+            ex.printStackTrace();
+        }
+        return decryptedMessage;
     }
 }
