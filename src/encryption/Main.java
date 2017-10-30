@@ -16,6 +16,7 @@ public class Main
     //Static variables
     public static boolean SHOWINFO = true;
     public static String NAMEOFCIPHER = "RSA";
+    public static String NAMEOFSIGNATURE = "SHA1withRSA";
     
     //private variables
     

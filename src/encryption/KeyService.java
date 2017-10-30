@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 public class KeyService
 {
     /**
-     * This method generates a KeyPair for a particular cipher
+     * This method generates a random KeyPair for a particular cipher
      * 
      * @param nameOfCipher specifies the cipher e.g. "RSA"
      * @return 
