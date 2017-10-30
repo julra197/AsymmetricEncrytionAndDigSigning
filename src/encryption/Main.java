@@ -28,28 +28,37 @@ public class Main
      */
     public static void main(String[] args)
     {
-        //variables for exemplification
+        //variables and output for exemplification
         String sender = "Bob";
         String eavesdropper = "Eve";
         String receiver = "Alice";
         System.out.println(String.format("Sender: %s, Receiver: %s, Eavesdropper: %s\n", sender, receiver, eavesdropper));
         System.out.println(String.format("INITIAL MESSAGE from %s using %s's public key:\n%s\n", sender, receiver, MESSAGE));
+       
+        //creating a keyPair (a public and a private key)
         KeyPair keyPair = KeyService.getRandomKeyPair(NAMEOFCIPHER);
         
         if(SHOWINFO)
         {
             System.out.println(String.format("%s's public key is:\n%s", receiver, keyPair.getPublic()));
         }
+        //testing digital signing (currently an implementation failture...)
+        byte[] signedMessage = DigSigning.signMessage(MESSAGE, keyPair.getPrivate(),
+               NAMEOFSIGNATURE);
+        System.out.println("signed message:\n" + new String(signedMessage));
+        boolean verified = DigSigning.verifyMessage(signedMessage, keyPair.getPublic(),
+                NAMEOFSIGNATURE);
+        System.out.println("message verified: " + verified);
+        System.out.println("message: "+ new String(signedMessage));
         
         //The encrypt method uses a Key argument, so a Private key could be provided for encryption as well
         byte[] encryptedMessage = AsymmetricService.encrypt(NAMEOFCIPHER,
-                MESSAGE, keyPair.getPublic());
+                MESSAGE.getBytes(), keyPair.getPublic());
         System.out.println("\nENCRYPTED MESSAGE to be sent and evaesdropped by " + eavesdropper + ": \n" + new String(encryptedMessage) + "\n");
-        String decryptedMessage = AsymmetricService.decrypt(NAMEOFCIPHER,
-                encryptedMessage, keyPair.getPrivate());
+        String decryptedMessage = new String(AsymmetricService.decrypt(NAMEOFCIPHER,
+                encryptedMessage, keyPair.getPrivate()));
         System.out.println("\nDECRYPTED MESSAGE read by "+ receiver +" using "+receiver+"'s public key: \n" + decryptedMessage);
         
-        // code to simmulate digital signing
     }
 
 }

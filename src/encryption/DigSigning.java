@@ -6,6 +6,7 @@ package encryption;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 
@@ -20,18 +21,18 @@ public class DigSigning
      * Returns a signedMessage
      * @param message the message to be signed
      * @param privateKey the private key of the message sender
-     * @param sigName the name of the signature algorithm 
+     * @param signatureName the name of the signature algorithm 
      * @return a signed version of the given message
      */
     public static byte[] signMessage(String message, PrivateKey privateKey,
-            String sigName)
+            String signatureName)
     {
         Signature signature;
         byte[] signedMessage = null;
         
         try
         {
-            signature = Signature.getInstance(sigName);
+            signature = Signature.getInstance(signatureName);
             if(Main.SHOWINFO)
             {
                 System.out.println("Signature status: " + signature);
@@ -45,7 +46,7 @@ public class DigSigning
             signedMessage = signature.sign();
             if(Main.SHOWINFO)
             {
-                System.out.println("Signature generated: " + new String(signedMessage));
+                System.out.println("Signed message: " + new String(signedMessage));
             }
         }
         catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException ex)
@@ -54,5 +55,23 @@ public class DigSigning
         }
         
         return signedMessage;
+    }
+    
+    public static boolean verifyMessage(byte[] message, PublicKey publicKey, String signatureName)
+    {
+        boolean verified = false;
+        Signature signature = null;
+        try
+        {
+            signature = Signature.getInstance(signatureName);
+            signature.initVerify(publicKey);
+            verified = signature.verify(message);
+        }
+        catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        return verified;
     }
 }
